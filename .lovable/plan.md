@@ -1,20 +1,32 @@
 
 
-# Gerar arquivo HTML standalone da VOKU Landing Page
+# Gerar `prompt-claude-code.md`
 
-## Objetivo
-Converter todos os componentes React deste projeto (Navbar, Hero, Marquee, Portfolio, Pricing, Process, Guarantee, Footer) em um **único arquivo HTML** com Tailwind CDN, pronto para colar em qualquer outro projeto.
+## O que será criado
 
-## O que será feito
+Um arquivo Markdown em `/mnt/documents/prompt-claude-code.md` com o prompt completo para colar no Claude Code (terminal). O prompt instruirá o Claude a:
 
-1. Ler todos os componentes restantes (Hero.tsx, Portfolio.tsx, Pricing.tsx) para capturar o conteúdo completo
-2. Gerar `/mnt/documents/voku-landing.html` contendo:
-   - Tailwind CDN com config customizado (cores lime, surface-dark, tipografia Inter)
-   - Todas as 8 seções em HTML semântico puro
-   - Animações CSS (marquee, hovers) sem Framer Motion
-   - Design responsivo (mobile-first)
-   - Comentários indicando onde trocar imagens/links
+1. **Usar o repo `voku-landing-refresh`** como source dos componentes visuais da home (`/`) no domínio `voku.one`
+2. **Manter o repo `Voku`** como source de toda a plataforma (dashboard, auth, briefing, Stripe)
+3. **Mapear os links Stripe** dos planos e credit packs do repo VOKU para os botões da Pricing
+
+## Conteúdo do prompt
+
+O prompt incluirá:
+
+- **Contexto da arquitetura dual-repo** com diagrama ASCII
+- **Lista completa dos 8 componentes** (Navbar, Hero, Marquee, Portfolio, Pricing, Process, Guarantee, Footer) com instruções de conversão React/Vite → Next.js App Router
+- **Design system completo**: CSS variables, utilitários (`text-display`, `surface-dark`, `surface-lime`, `btn-primary`), keyframes do marquee, Tailwind config com cores
+- **Dependências necessárias**: `framer-motion`, `lucide-react`
+- **Instrução Stripe**: localizar os checkout links existentes no repo VOKU e mapeá-los nos botões "Começar agora" (4 planos) e "COMPRAR" (3 credit packs)
+- **Workflow de sync**: quando o layout mudar no Lovable → push para `voku-landing-refresh` → Claude re-sincroniza no repo VOKU
+
+## Passos de implementação
+
+1. Gerar o arquivo `/mnt/documents/prompt-claude-code.md` com todo o conteúdo estruturado
+2. Validar que o arquivo foi criado corretamente
 
 ## Entrega
-Um arquivo HTML único que o usuário baixa e integra no projeto VOKU no Vercel/GitHub.
+
+Arquivo pronto para copiar e colar no terminal do Claude Code.
 
