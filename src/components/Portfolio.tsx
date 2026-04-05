@@ -7,10 +7,10 @@ import wellnessImg4 from "@/assets/portfolio-wellness-4.jpg";
 import techImg1 from "@/assets/portfolio-tech-1.jpg";
 import techImg2 from "@/assets/portfolio-tech-2.jpg";
 import techImg3 from "@/assets/portfolio-tech-3.jpg";
-import interiorImg1 from "@/assets/portfolio-interior-1.jpg";
-import interiorImg2 from "@/assets/portfolio-interior-2.jpg";
-import interiorImg3 from "@/assets/portfolio-interior-3.jpg";
-import interiorImg4 from "@/assets/portfolio-interior-4.jpg";
+import interiorPost from "@/assets/portfolio-interior-post.jpg";
+import interiorStories from "@/assets/portfolio-interior-stories.jpg";
+import interiorLanding from "@/assets/portfolio-interior-landing.jpg";
+import interiorCarousel from "@/assets/portfolio-interior-carousel.jpg";
 
 const categories = ["Wellness & Beleza", "Tech & Serviços"] as const;
 
@@ -78,34 +78,34 @@ const portfolioData: Record<string, PortfolioItem[]> = {
   ],
 };
 
-const interiorProjects: PortfolioItem[] = [
+const showcaseItems: PortfolioItem[] = [
   {
-    type: "DESIGN DE INTERIORES",
-    title: "Escritório corporativo premium com iluminação natural e madeira.",
-    subtitle: "CORPORATIVO · OPEN SPACE",
-    image: interiorImg1,
-    span: "md:col-span-2 md:row-span-2",
-  },
-  {
-    type: "SALA EXECUTIVA",
-    title: "Sala executiva com vista panorâmica e acabamentos em mármore.",
-    subtitle: "EXECUTIVO · PREMIUM",
-    image: interiorImg2,
+    type: "POST INSTAGRAM",
+    title: "Post de feed para estúdio de arquitetura corporativa.",
+    subtitle: "SOCIAL MEDIA · FEED",
+    image: interiorPost,
     span: "md:col-span-1 md:row-span-2",
   },
   {
-    type: "SALA DE REUNIÃO",
-    title: "Sala de reunião criativa para agência de design.",
-    subtitle: "CRIATIVO · COLABORATIVO",
-    image: interiorImg3,
-    span: "md:col-span-1 md:row-span-1",
+    type: "STORIES",
+    title: "Story com CTA para divulgação de novo projeto de interiores.",
+    subtitle: "SOCIAL MEDIA · STORIES",
+    image: interiorStories,
+    span: "md:col-span-1 md:row-span-2",
   },
   {
-    type: "COWORKING",
-    title: "Coworking industrial chic com tijolos aparentes e iluminação quente.",
-    subtitle: "STARTUP · COWORKING",
-    image: interiorImg4,
+    type: "LANDING PAGE",
+    title: "Landing page completa para captação de leads no segmento corporativo.",
+    subtitle: "WEB · CONVERSÃO",
+    image: interiorLanding,
     span: "md:col-span-2 md:row-span-1",
+  },
+  {
+    type: "CARROSSEL",
+    title: "Carrossel educativo com dicas de design para escritórios modernos.",
+    subtitle: "SOCIAL MEDIA · CARROSSEL",
+    image: interiorCarousel,
+    span: "md:col-span-1 md:row-span-1",
   },
 ];
 
