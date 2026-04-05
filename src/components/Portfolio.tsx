@@ -189,13 +189,13 @@ const Portfolio = () => {
               <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-4">
                 <div>
                   <span className="text-[10px] bg-accent text-accent-foreground px-3 py-1 rounded-full font-semibold uppercase tracking-wider">
-                    Case · Design de Interiores
+                    Case · Arquitetura Corporativa
                   </span>
                   <h3 className="text-heading mt-4 max-w-2xl">
-                    ESCRITÓRIOS QUE INSPIRAM PRODUTIVIDADE.
+                    CONTEÚDO QUE CRIAMOS PARA UM ESCRITÓRIO DE DESIGN.
                   </h3>
                   <p className="text-sm text-muted-foreground mt-3 max-w-xl">
-                    Projeto criado para um cliente do ramo de arquitetura corporativa. Da identidade visual ao conteúdo de lançamento — tudo gerado pela VOKU.
+                    Posts, stories, carrosséis e landing pages — tudo criado pela VOKU para um cliente do ramo de interiores corporativos.
                   </p>
                 </div>
               </div>
@@ -206,7 +206,7 @@ const Portfolio = () => {
                 transition={{ duration: 0.4, delay: 0.2 }}
                 className="grid grid-cols-1 md:grid-cols-3 auto-rows-[280px] gap-3 mt-8"
               >
-                {interiorProjects.map((item, i) => (
+                {showcaseItems.map((item, i) => (
                   <PortfolioCard key={i} item={item} index={i} />
                 ))}
               </motion.div>
@@ -222,16 +222,16 @@ const Portfolio = () => {
                   Isto é apenas uma amostra
                 </p>
                 <h4 className="text-lg md:text-xl font-bold text-foreground max-w-xl mx-auto leading-tight">
-                  O que você vê aqui é uma fração do que podemos criar para o seu negócio.
+                  Criamos posts, reels, stories, landing pages e muito mais — para qualquer segmento.
                 </h4>
                 <p className="text-sm text-muted-foreground mt-3 max-w-md mx-auto">
-                  Cada projeto é único. Criamos conteúdo visual sob medida para qualquer segmento — do wellness ao tech, do varejo à arquitetura.
+                  O que você vê aqui é uma fração do que podemos produzir. Cada peça é única e feita sob medida para a identidade visual do seu negócio.
                 </p>
                 <a
                   href="#comecar"
                   className="inline-flex items-center gap-2 mt-6 bg-foreground text-background text-xs font-semibold px-6 py-3 rounded-full hover:bg-accent hover:text-accent-foreground transition-all duration-300"
                 >
-                  Quero um projeto assim
+                  Quero conteúdo assim
                   <span>→</span>
                 </a>
               </motion.div>
