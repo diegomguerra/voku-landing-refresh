@@ -7,10 +7,10 @@ import wellnessImg4 from "@/assets/portfolio-wellness-4.jpg";
 import techImg1 from "@/assets/portfolio-tech-1.jpg";
 import techImg2 from "@/assets/portfolio-tech-2.jpg";
 import techImg3 from "@/assets/portfolio-tech-3.jpg";
-import interiorImg1 from "@/assets/portfolio-interior-1.jpg";
-import interiorImg2 from "@/assets/portfolio-interior-2.jpg";
-import interiorImg3 from "@/assets/portfolio-interior-3.jpg";
-import interiorImg4 from "@/assets/portfolio-interior-4.jpg";
+import interiorPost from "@/assets/portfolio-interior-post.jpg";
+import interiorStories from "@/assets/portfolio-interior-stories.jpg";
+import interiorLanding from "@/assets/portfolio-interior-landing.jpg";
+import interiorCarousel from "@/assets/portfolio-interior-carousel.jpg";
 
 const categories = ["Wellness & Beleza", "Tech & Serviços"] as const;
 
@@ -78,34 +78,34 @@ const portfolioData: Record<string, PortfolioItem[]> = {
   ],
 };
 
-const interiorProjects: PortfolioItem[] = [
+const showcaseItems: PortfolioItem[] = [
   {
-    type: "DESIGN DE INTERIORES",
-    title: "Escritório corporativo premium com iluminação natural e madeira.",
-    subtitle: "CORPORATIVO · OPEN SPACE",
-    image: interiorImg1,
-    span: "md:col-span-2 md:row-span-2",
-  },
-  {
-    type: "SALA EXECUTIVA",
-    title: "Sala executiva com vista panorâmica e acabamentos em mármore.",
-    subtitle: "EXECUTIVO · PREMIUM",
-    image: interiorImg2,
+    type: "POST INSTAGRAM",
+    title: "Post de feed para estúdio de arquitetura corporativa.",
+    subtitle: "SOCIAL MEDIA · FEED",
+    image: interiorPost,
     span: "md:col-span-1 md:row-span-2",
   },
   {
-    type: "SALA DE REUNIÃO",
-    title: "Sala de reunião criativa para agência de design.",
-    subtitle: "CRIATIVO · COLABORATIVO",
-    image: interiorImg3,
-    span: "md:col-span-1 md:row-span-1",
+    type: "STORIES",
+    title: "Story com CTA para divulgação de novo projeto de interiores.",
+    subtitle: "SOCIAL MEDIA · STORIES",
+    image: interiorStories,
+    span: "md:col-span-1 md:row-span-2",
   },
   {
-    type: "COWORKING",
-    title: "Coworking industrial chic com tijolos aparentes e iluminação quente.",
-    subtitle: "STARTUP · COWORKING",
-    image: interiorImg4,
+    type: "LANDING PAGE",
+    title: "Landing page completa para captação de leads no segmento corporativo.",
+    subtitle: "WEB · CONVERSÃO",
+    image: interiorLanding,
     span: "md:col-span-2 md:row-span-1",
+  },
+  {
+    type: "CARROSSEL",
+    title: "Carrossel educativo com dicas de design para escritórios modernos.",
+    subtitle: "SOCIAL MEDIA · CARROSSEL",
+    image: interiorCarousel,
+    span: "md:col-span-1 md:row-span-1",
   },
 ];
 
@@ -189,13 +189,13 @@ const Portfolio = () => {
               <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-4">
                 <div>
                   <span className="text-[10px] bg-accent text-accent-foreground px-3 py-1 rounded-full font-semibold uppercase tracking-wider">
-                    Case · Design de Interiores
+                    Case · Arquitetura Corporativa
                   </span>
                   <h3 className="text-heading mt-4 max-w-2xl">
-                    ESCRITÓRIOS QUE INSPIRAM PRODUTIVIDADE.
+                    CONTEÚDO QUE CRIAMOS PARA UM ESCRITÓRIO DE DESIGN.
                   </h3>
                   <p className="text-sm text-muted-foreground mt-3 max-w-xl">
-                    Projeto criado para um cliente do ramo de arquitetura corporativa. Da identidade visual ao conteúdo de lançamento — tudo gerado pela VOKU.
+                    Posts, stories, carrosséis e landing pages — tudo criado pela VOKU para um cliente do ramo de interiores corporativos.
                   </p>
                 </div>
               </div>
@@ -206,7 +206,7 @@ const Portfolio = () => {
                 transition={{ duration: 0.4, delay: 0.2 }}
                 className="grid grid-cols-1 md:grid-cols-3 auto-rows-[280px] gap-3 mt-8"
               >
-                {interiorProjects.map((item, i) => (
+                {showcaseItems.map((item, i) => (
                   <PortfolioCard key={i} item={item} index={i} />
                 ))}
               </motion.div>
@@ -222,16 +222,16 @@ const Portfolio = () => {
                   Isto é apenas uma amostra
                 </p>
                 <h4 className="text-lg md:text-xl font-bold text-foreground max-w-xl mx-auto leading-tight">
-                  O que você vê aqui é uma fração do que podemos criar para o seu negócio.
+                  Criamos posts, reels, stories, landing pages e muito mais — para qualquer segmento.
                 </h4>
                 <p className="text-sm text-muted-foreground mt-3 max-w-md mx-auto">
-                  Cada projeto é único. Criamos conteúdo visual sob medida para qualquer segmento — do wellness ao tech, do varejo à arquitetura.
+                  O que você vê aqui é uma fração do que podemos produzir. Cada peça é única e feita sob medida para a identidade visual do seu negócio.
                 </p>
                 <a
                   href="#comecar"
                   className="inline-flex items-center gap-2 mt-6 bg-foreground text-background text-xs font-semibold px-6 py-3 rounded-full hover:bg-accent hover:text-accent-foreground transition-all duration-300"
                 >
-                  Quero um projeto assim
+                  Quero conteúdo assim
                   <span>→</span>
                 </a>
               </motion.div>
