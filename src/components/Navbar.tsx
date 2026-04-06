@@ -39,6 +39,11 @@ const Navbar = () => {
           <a href="#servicos" className="text-sm" onClick={() => setIsOpen(false)}>Serviços</a>
           <a href="#processo" className="text-sm" onClick={() => setIsOpen(false)}>Processo</a>
           <a href="#sobre" className="text-sm" onClick={() => setIsOpen(false)}>Sobre</a>
+          <div className="flex items-center gap-1 border border-border rounded-full overflow-hidden text-xs w-fit">
+            <span className="bg-foreground text-background px-3 py-1.5 font-medium">PT</span>
+            <span className="px-3 py-1.5 text-muted-foreground">EN</span>
+            <span className="px-3 py-1.5 text-muted-foreground">ES</span>
+          </div>
           <a href="#comecar" className="btn-primary text-center text-xs" onClick={() => setIsOpen(false)}>Começar projeto</a>
         </div>
       )}

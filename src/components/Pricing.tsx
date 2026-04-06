@@ -85,7 +85,7 @@ const Pricing = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.1 }}
-            className={`p-6 rounded-sm border flex flex-col ${
+            className={`p-5 md:p-6 rounded-sm border flex flex-col ${
               plan.highlighted
                 ? "surface-lime border-accent"
                 : "bg-background border-border"
