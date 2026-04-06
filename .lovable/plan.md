@@ -1,64 +1,48 @@
 
 
-# Atualizar `prompt-claude-code.md` com integração da Edge Function
+# Tornar a Landing Page 100% Responsiva para Smartphone
 
-## Problema identificado
+## Problemas identificados
 
-O prompt anterior instrui o Claude apenas a copiar componentes visuais entre repos. Falta a parte principal: como o Claude Code na VOKU deve **chamar a Edge Function `gerar-landing-page`** hospedada no Lovable Cloud para gerar landing pages via IA.
+Após análise dos componentes, os principais pontos que precisam de ajuste mobile:
 
-## O que será adicionado
+1. **Hero** — O `text-display` usa `text-5xl` no mobile, que pode ser grande demais em telas < 375px. O grid split (light/dark) empilha corretamente mas o lado escuro fica muito longo.
+2. **Portfolio** — Grid `auto-rows-[260px]` com spans `md:col-span-2` colapsa para 1 coluna no mobile, mas a altura fixa de 260px pode cortar imagens em telas pequenas.
+3. **Pricing** — 4 cards em coluna única ficam muito longos no scroll mobile. Os credit packs também.
+4. **Process** — Stats `flex gap-8` pode transbordar em telas estreitas (< 360px).
+5. **Navbar** — Menu mobile funciona, mas o seletor de idioma (PT/EN/ES) aparece apenas no desktop.
+6. **Footer** — Grid 4 colunas colapsa para 1, mas a coluna vazia desperdiça espaço.
+7. **Marquee** — OK, funciona bem em qualquer largura.
+8. **Guarantee** — OK, já é centralizado e responsivo.
 
-Uma nova seção no prompt com:
+## Alterações planejadas
 
-1. **URL da Edge Function**: `https://ivflzjzmsynijynuphnr.supabase.co/functions/v1/gerar-landing-page`
-2. **Payload completo** com todos os campos aceitos (`brand_name`, `headline`, `cta_text`, `primary_color`, `secondary_color`, `tone`, `audience`, `subheadline`, `sections`, `images`)
-3. **Exemplo de curl** pronto para testar no terminal
-4. **Exemplo de integração Next.js** (API route ou server action no repo VOKU que chama a edge function)
-5. **Tratamento de erros** (400, 402, 429, 500)
-6. **Resposta esperada**: `{ html, metadata }` com o HTML completo gerado
+### Hero.tsx
+- Reduzir `text-display` no mobile: `text-4xl` → `md:text-7xl` → `lg:text-8xl`
+- Reduzir padding vertical mobile: `py-12` em vez de `py-20`
+- Lado escuro: reduzir tamanho do "minutos" para `text-5xl` no mobile
 
-## Estrutura do prompt atualizado
+### Portfolio.tsx
+- Ajustar `auto-rows-[200px]` no mobile (menor altura)
+- Garantir que badges não transbordem em telas < 375px
 
-O arquivo `/mnt/documents/prompt-claude-code.md` será reescrito com:
+### Pricing.tsx
+- Manter grid 1 coluna no mobile (já funciona)
+- Reduzir padding dos cards no mobile: `p-5` em vez de `p-6`
 
-- Seção 1: Arquitetura dual-repo (mantida)
-- Seção 2: **NOVA — API de Geração de Landing Pages** (endpoint, payload, exemplos, integração no Next.js)
-- Seção 3: Componentes visuais da home (mantida)
-- Seção 4: Design system (mantida)
-- Seção 5: Manobra Stripe (mantida)
-- Seção 6: Workflow de sync (mantida)
-- Seção 7: Checklist (atualizada com item da API)
+### Process.tsx
+- Stats: mudar para `flex flex-wrap gap-6` para evitar overflow
+- Reduzir tamanho dos valores stat no mobile
 
-## Exemplo de chamada que será incluído
+### Navbar.tsx
+- Adicionar seletor de idioma no menu mobile
 
-```bash
-curl -X POST \
-  https://ivflzjzmsynijynuphnr.supabase.co/functions/v1/gerar-landing-page \
-  -H "Content-Type: application/json" \
-  -d '{
-    "brand_name": "Minha Marca",
-    "headline": "Transforme seu negócio",
-    "cta_text": "Começar agora",
-    "primary_color": "#6C3AED",
-    "tone": "profissional e moderno",
-    "audience": "empresas",
-    "sections": ["Hero", "Benefícios", "Depoimentos", "CTA"]
-  }'
-```
+### Footer.tsx
+- Mudar grid para `grid-cols-2` no mobile em vez de `grid-cols-1` (brand full width, restante em 2 colunas)
 
-Resposta:
-```json
-{
-  "html": "<!DOCTYPE html>...",
-  "metadata": {
-    "sections_count": 4,
-    "responsive": true,
-    "brand": "Minha Marca"
-  }
-}
-```
+### index.css
+- Ajustar `.text-display` para começar menor: `text-4xl` base
 
-## Entrega
-
-Arquivo atualizado em `/mnt/documents/prompt-claude-code.md` (versão v2), pronto para copiar e colar no Claude Code.
+## Resultado
+Todas as seções terão layout otimizado para telas de 320px a 414px, sem overflow horizontal, texto legível e CTAs acessíveis com o polegar.
 
