@@ -109,7 +109,7 @@ const Portfolio = () => {
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.5 }}
-        className="grid grid-cols-1 md:grid-cols-3 auto-rows-[260px] gap-3"
+        className="grid grid-cols-1 md:grid-cols-3 auto-rows-[200px] md:auto-rows-[260px] gap-3"
       >
         {showcaseItems.map((item, i) => (
           <motion.div
