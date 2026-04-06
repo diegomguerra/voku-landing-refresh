@@ -22,7 +22,12 @@ REGRAS OBRIGATÓRIAS:
 10. Adicione animações sutis com CSS (fade-in, hover effects).
 11. O HTML deve ser production-ready, limpo e semântico.
 12. Inclua um header/nav com o nome da marca e um footer simples.
-13. NUNCA use placeholder — use apenas as imagens fornecidas ou omita se não houver.`;
+13. NUNCA use placeholder — use apenas as imagens fornecidas ou omita se não houver.
+14. Respeite TODAS as cores da paleta fornecida (primária, secundária, texto, fundo, accent).
+15. Respeite as diretrizes tipográficas quando fornecidas (fontes para logo, corpo, tagline).
+16. Se um estilo visual for especificado (luxury, minimal, bold, etc.), aplique-o consistentemente.
+17. Use as palavras-chave SEO fornecidas nas meta tags e no conteúdo.
+18. Reproduza a grafia exata do nome da marca e tagline — nunca altere acentos ou capitalização.`;
 
 serve(async (req) => {
   if (req.method === "OPTIONS") {
@@ -31,17 +36,9 @@ serve(async (req) => {
 
   try {
     const body = await req.json();
-    console.log("[BRIEFING RECEBIDO]", JSON.stringify({
-      brand_name: body.brand_name,
-      headline: body.headline,
-      cta_text: body.cta_text,
-      tone: body.tone,
-      audience: body.audience,
-      primary_color: body.primary_color,
-      sections: body.sections,
-      images_count: body.images?.length || 0,
-      timestamp: new Date().toISOString(),
-    }));
+
+    // Log completo do body para debug
+    console.log("[BRIEFING COMPLETO]", JSON.stringify(body));
 
     // Validação
     const required = ["brand_name", "headline", "cta_text"];
@@ -55,28 +52,60 @@ serve(async (req) => {
 
     const {
       brand_name,
+      product_name = "",
+      tagline = "",
       primary_color = "#6C3AED",
       secondary_color = "#1E1B4B",
+      text_color = "",
+      accent_color = "",
+      background_color = "",
       tone = "profissional e moderno",
       audience = "empresas e profissionais",
+      style = "",
       headline,
       subheadline = "",
       cta_text,
       sections = [],
       images = [],
+      keywords = "",
+      description = "",
+      typography = null,
     } = body;
+
+    // Construir prompt enriquecido
+    const fullBrandName = product_name ? `${brand_name} ${product_name}` : brand_name;
+
+    let colorSection = `COR PRIMÁRIA: ${primary_color}\nCOR SECUNDÁRIA: ${secondary_color}`;
+    if (text_color) colorSection += `\nCOR DO TEXTO: ${text_color}`;
+    if (accent_color) colorSection += `\nCOR DE DESTAQUE: ${accent_color}`;
+    if (background_color) colorSection += `\nCOR DE FUNDO: ${background_color}`;
+
+    let typographySection = "";
+    if (typography && typeof typography === "object") {
+      typographySection = "\nTIPOGRAFIA:";
+      for (const [key, value] of Object.entries(typography)) {
+        typographySection += `\n- ${key}: ${value}`;
+      }
+    }
 
     const userPrompt = `Crie uma landing page completa para:
 
-MARCA: ${brand_name}
-COR PRIMÁRIA: ${primary_color}
-COR SECUNDÁRIA: ${secondary_color}
+MARCA: ${fullBrandName}
+${tagline ? `TAGLINE: "${tagline}"` : ""}
+
+${colorSection}
+
 TOM DE VOZ: ${tone}
 PÚBLICO-ALVO: ${audience}
+${style ? `ESTILO VISUAL: ${style}` : ""}
 
 HEADLINE: ${headline}
 ${subheadline ? `SUBHEADLINE: ${subheadline}` : ""}
 CTA: ${cta_text}
+
+${description ? `DESCRIÇÃO DO PRODUTO/MARCA: ${description}` : ""}
+${typographySection}
+${keywords ? `PALAVRAS-CHAVE SEO: ${keywords}` : ""}
 
 ${sections.length > 0 ? `SEÇÕES SOLICITADAS:\n${sections.map((s: string, i: number) => `${i + 1}. ${s}`).join("\n")}` : "Inclua: Hero, Benefícios, Como Funciona, CTA final."}
 
@@ -143,7 +172,7 @@ Retorne APENAS o HTML completo.`;
           sections_count: sectionsCount,
           estimated_load_time: "< 2s",
           responsive: true,
-          brand: brand_name,
+          brand: fullBrandName,
           model: "google/gemini-3-flash-preview",
         },
       }),
