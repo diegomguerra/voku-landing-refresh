@@ -1,48 +1,107 @@
 
 
-# Tornar a Landing Page 100% Responsiva para Smartphone
+# Plano: Expandir Edge Function para aceitar briefing completo
 
-## Problemas identificados
+## Problema
 
-Após análise dos componentes, os principais pontos que precisam de ajuste mobile:
+O caller (voku.one) coleta dados ricos no briefing (paleta completa, tagline, tipografia, produto, estilo, keywords, resumo) mas a Edge Function só aceita e injeta no prompt: `brand_name`, `headline`, `primary_color`, `secondary_color`, `tone`, `audience`, `cta_text`, `sections`, `images`.
 
-1. **Hero** — O `text-display` usa `text-5xl` no mobile, que pode ser grande demais em telas < 375px. O grid split (light/dark) empilha corretamente mas o lado escuro fica muito longo.
-2. **Portfolio** — Grid `auto-rows-[260px]` com spans `md:col-span-2` colapsa para 1 coluna no mobile, mas a altura fixa de 260px pode cortar imagens em telas pequenas.
-3. **Pricing** — 4 cards em coluna única ficam muito longos no scroll mobile. Os credit packs também.
-4. **Process** — Stats `flex gap-8` pode transbordar em telas estreitas (< 360px).
-5. **Navbar** — Menu mobile funciona, mas o seletor de idioma (PT/EN/ES) aparece apenas no desktop.
-6. **Footer** — Grid 4 colunas colapsa para 1, mas a coluna vazia desperdiça espaço.
-7. **Marquee** — OK, funciona bem em qualquer largura.
-8. **Guarantee** — OK, já é centralizado e responsivo.
+Resultado: dados como `text_color`, `tagline`, `produto`, `estilo`, `keywords`, `resumo`, `tipografia` são perdidos ou mapeados incorretamente.
 
-## Alterações planejadas
+## Solução
 
-### Hero.tsx
-- Reduzir `text-display` no mobile: `text-4xl` → `md:text-7xl` → `lg:text-8xl`
-- Reduzir padding vertical mobile: `py-12` em vez de `py-20`
-- Lado escuro: reduzir tamanho do "minutos" para `text-5xl` no mobile
+### 1. Expandir os campos aceitos pela Edge Function
 
-### Portfolio.tsx
-- Ajustar `auto-rows-[200px]` no mobile (menor altura)
-- Garantir que badges não transbordem em telas < 375px
+Novos campos opcionais no body:
 
-### Pricing.tsx
-- Manter grid 1 coluna no mobile (já funciona)
-- Reduzir padding dos cards no mobile: `p-5` em vez de `p-6`
+| Campo | Tipo | Exemplo | Uso |
+|-------|------|---------|-----|
+| `product_name` | string | `"Cascara Spritz"` | Nome do produto (separado da marca) |
+| `tagline` | string | `"O lado mais leve do café"` | Tagline da marca |
+| `text_color` | string | `"#2B1A10"` | Cor do texto principal |
+| `accent_color` | string | `"#C9A49A"` | Cor de destaque/accent |
+| `background_color` | string | `"#FFFFFF"` | Cor de fundo |
+| `style` | string | `"luxury"` | Estilo visual geral |
+| `keywords` | string | `"cascara, café, premium"` | Palavras-chave SEO |
+| `description` | string | `"Bebida não alcoólica..."` | Resumo/descrição do produto |
+| `typography` | object | `{logo: "Serif elegante...", body: "Sans-serif"}` | Diretrizes tipográficas |
 
-### Process.tsx
-- Stats: mudar para `flex flex-wrap gap-6` para evitar overflow
-- Reduzir tamanho dos valores stat no mobile
+### 2. Enriquecer o prompt enviado à IA
 
-### Navbar.tsx
-- Adicionar seletor de idioma no menu mobile
+Injetar todos os novos campos no `userPrompt`, adicionando seções como:
 
-### Footer.tsx
-- Mudar grid para `grid-cols-2` no mobile em vez de `grid-cols-1` (brand full width, restante em 2 colunas)
+```
+PRODUTO: Cascara Spritz
+TAGLINE: "O lado mais leve do café"
 
-### index.css
-- Ajustar `.text-display` para começar menor: `text-4xl` base
+PALETA COMPLETA:
+- Primária: #C4622D (âmbar alaranjado)
+- Secundária: #C9A49A (rosa acinzentado)
+- Texto: #2B1A10 (marrom escuro)
+- Fundo: #FFFFFF (branco puro)
 
-## Resultado
-Todas as seções terão layout otimizado para telas de 320px a 414px, sem overflow horizontal, texto legível e CTAs acessíveis com o polegar.
+ESTILO VISUAL: luxury
+TIPOGRAFIA: Serif elegante para logo, sans-serif para corpo
+
+DESCRIÇÃO: Bebida não alcoólica gaseificada à base de polpa de café...
+PALAVRAS-CHAVE SEO: cascara, café, bebida natural, alternativa saudável
+```
+
+### 3. Logar o body completo
+
+Mudar o `console.log` para logar **todos** os campos recebidos (`JSON.stringify(body)`) para debug futuro.
+
+### 4. Schema JSON para o caller (voku.one)
+
+Payload esperado que a voku deve enviar:
+
+```json
+{
+  "brand_name": "VÉRIA",
+  "product_name": "Cascara Spritz",
+  "tagline": "O lado mais leve do café",
+  "headline": "VÉRIA Cascara Spritz - O lado mais leve do café. Primeiro Cascara Spritz do Brasil.",
+  "subheadline": "Bebida não alcoólica gaseificada à base de polpa de café",
+  "cta_text": "Saiba onde encontrar",
+  "tone": "premium + inspiracional",
+  "audience": "pessoas que buscam alternativas saudáveis, amantes de café",
+  "style": "luxury",
+  "primary_color": "#C4622D",
+  "secondary_color": "#C9A49A",
+  "text_color": "#2B1A10",
+  "background_color": "#FFFFFF",
+  "accent_color": "#C9A49A",
+  "keywords": "cascara, café, bebida natural, alternativa saudável, spritz",
+  "description": "VÉRIA Cascara Spritz - bebida não alcoólica gaseificada à base de polpa de café com posicionamento premium",
+  "typography": {
+    "logo": "Serif elegante, caixa alta, com acento",
+    "product": "Serif regular, peso médio",
+    "tagline": "Serif itálico, delicado",
+    "body": "Sans-serif leve"
+  },
+  "sections": ["Hero", "Benefícios", "Como Funciona", "Prova Social", "CTA final"],
+  "images": ["https://...ref-0.png"]
+}
+```
+
+### Mapeamento que a voku.one precisa corrigir
+
+```
+structured_data.nome_marca       → brand_name
+structured_data.produto          → product_name  (NOVO)
+structured_data.resumo           → headline + description
+structured_data.cor_primaria     → primary_color  (DEVE ser #C4622D, não #2B1A10)
+structured_data.cor_secundaria   → secondary_color
+structured_data.cor_texto        → text_color (NOVO)
+structured_data.estilo           → style (NOVO)
+structured_data.tom              → tone
+structured_data.palavras_chave   → keywords (NOVO)
+structured_data.cta_texto        → cta_text
+tagline do chat                  → tagline (NOVO)
+tipografia do chat               → typography (NOVO)
+```
+
+### Arquivos modificados
+
+- `supabase/functions/gerar-landing-page/index.ts` — aceitar novos campos, enriquecer prompt, logar body completo
 
