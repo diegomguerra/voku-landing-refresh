@@ -23,7 +23,7 @@ const Hero = () => {
         >
           SEU
           <br />
-          <span className="text-foreground/30">CONTEÚDO.</span>
+          <span className="text-foreground/30">CONTEÚDO</span>
           <br />
           <span className="font-black">PRONTO.</span>
         </motion.h1>
