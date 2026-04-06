@@ -31,6 +31,17 @@ serve(async (req) => {
 
   try {
     const body = await req.json();
+    console.log("[BRIEFING RECEBIDO]", JSON.stringify({
+      brand_name: body.brand_name,
+      headline: body.headline,
+      cta_text: body.cta_text,
+      tone: body.tone,
+      audience: body.audience,
+      primary_color: body.primary_color,
+      sections: body.sections,
+      images_count: body.images?.length || 0,
+      timestamp: new Date().toISOString(),
+    }));
 
     // Validação
     const required = ["brand_name", "headline", "cta_text"];
